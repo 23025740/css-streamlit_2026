@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Feb  3 04:52:23 2026
-
-@author: tshiv
-"""
-
 import streamlit as st
 import pandas as pd
 
@@ -12,167 +5,140 @@ import pandas as pd
 # Page Config
 # --------------------------------------------------
 st.set_page_config(
-    page_title="Research Portfolio | Ritshidze Tshivhase",
-    page_icon="🇿🇦",
+    page_title="Undergrad Research | R. Tshivhase",
+    page_icon="📚",
     layout="wide"
 )
 
-# Custom CSS for a cleaner look
+
 st.markdown("""
     <style>
-    .main {
-        background-color: #f8f9fa;
-    }
-    .stMetric {
-        background-color: #ffffff;
-        padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
+    .main { background-color: #fdfdfd; }
+    .stAlert { border-radius: 8px; }
+    .stMetric { border: 1px solid #eeeeee; padding: 10px; border-radius: 5px; }
+    h1, h2 { color: #1E3A8A; }
     </style>
     """, unsafe_allow_html=True)
 
 # --------------------------------------------------
-# Initialization
+# Initialization (Default Student Data)
 # --------------------------------------------------
 if "education" not in st.session_state:
-    st.session_state.education = [{"deg": "Data Science Specialization", "sch": "University of South Africa", "yr": "2023"}]
-if "experience" not in st.session_state:
-    st.session_state.experience = [{"role": "Researcher", "org": "Fintech Lab", "dur": "2022 - Present"}]
+    st.session_state.education = [
+        {"deg": "BSc in Computer Science & Mathematics (Current)", "sch": "Your University Name", "yr": "Expected 2025"}
+    ]
+if "projects" not in st.session_state:
+    st.session_state.projects = [
+        {"title": "Mobile Payment Barriers", "desc": "Analyzing why rural users prefer USSD over Apps."}
+    ]
 
 # --------------------------------------------------
-# Sidebar
+# Sidebar Navigation
 # --------------------------------------------------
 with st.sidebar:
-    st.image("https://img.icons8.com/fluency/96/000000/test-account.png", width=100)
-    st.title("Ritshidze Tshivhase")
-    st.info("📍 South Africa | Data Science & AI")
+    st.markdown("## 🇿🇦 Research Portfolio")
+    st.image("https://img.icons8.com/fluency/96/000000/education.png", width=80)
+    st.write("**Ritshidze Tshivhase**")
+    st.caption("Undergraduate Researcher")
     st.divider()
-    menu = st.radio(
-        "Navigation",
-        ["Home & Profile", "Academic & Professional", "Research Deep-Dive", "Contact"],
-        index=0
-    )
+    menu = st.radio("Sections", ["About Me", "Academic Journey", "STEM & Research", "Contact"])
 
 # --------------------------------------------------
-# 1. Home & Profile
+# 1. About Me
 # --------------------------------------------------
-if menu == "Home & Profile":
-    st.title("👤 Researcher Profile")
+if menu == "About Me":
+    st.title("🎓 Computer Science Graduate")
     
     col1, col2 = st.columns([2, 1])
-    
     with col1:
-        st.subheader("The Research Mission")
-        st.markdown(f"""
-        > **Topic:** The Adoption and Impact of Mobile Payment Systems on Financial Inclusion in South Africa.
+        st.markdown("""
+        ### Research Focus
+        **"The Adoption and Impact of Mobile Payment Systems on Financial Inclusion in South Africa."**
         
-        My work explores the intersection of **Fintech and Socio-economics**, specifically focusing on how 
-        digital wallets can bridge the gap for the unbanked populations in South African townships and rural areas.
+        As an undergraduate student, I am exploring how technology can solve real-world problems. My research focuses 
+        on the 'digital divide' in South Africa—specifically looking at how mobile payment systems can provide 
+        financial dignity to the unbanked.
         """)
         
-        with st.expander("Read Bio"):
-            st.write("Specializing in how digital wallets bridge the gap for the unbanked in SA. "
-                     "Leveraging data science to predict adoption barriers and policy impact.")
-
-    with col2:
-        st.markdown("### Quick Stats")
-        st.metric(label="Current Focus", value="Mobile Payments")
-        st.metric(label="Region", value="South Africa (Gauteng/Limpopo)")
-
-    st.divider()
-    st.subheader("🔬 Research Interests")
-    row1_col1, row1_col2, row1_col3 = st.columns(3)
-    row1_col1.info("**Fintech Acceptance**\n\nShifting from cash-heavy habits to digital.")
-    row1_col2.info("**Last-Mile Delivery**\n\nReaching rural communities effectively.")
-    row1_col3.info("**Policy Impact**\n\nEvaluating SARB's Vision 2025.")
-
-# --------------------------------------------------
-# 2. Academic & Professional
-# --------------------------------------------------
-elif menu == "Academic & Professional":
-    tab1, tab2 = st.tabs(["🎓 Education", "💼 Experience"])
-
-    with tab1:
-        st.header("Education")
-        with st.expander("➕ Add New Record"):
-            with st.form("edu_form"):
-                deg = st.text_input("Degree")
-                sch = st.text_input("University")
-                yr = st.text_input("Year")
-                if st.form_submit_button("Save"):
-                    st.session_state.education.append({"deg": deg, "sch": sch, "yr": yr})
-        
-        for edu in reversed(st.session_state.education):
-            st.markdown(f"#### {edu['deg']}")
-            st.caption(f"{edu['sch']} | {edu['yr']}")
-            st.divider()
-
-    with tab2:
-        st.header("Professional Timeline")
-        with st.expander("➕ Add New Experience"):
-            with st.form("exp_form"):
-                role = st.text_input("Role")
-                org = st.text_input("Organization")
-                dur = st.text_input("Duration")
-                if st.form_submit_button("Save"):
-                    st.session_state.experience.append({"role": role, "org": org, "dur": dur})
-
-        for exp in reversed(st.session_state.experience):
-            st.markdown(f"#### {exp['role']}")
-            st.markdown(f"**{exp['org']}** — *{exp['dur']}*")
-            st.divider()
-
-# --------------------------------------------------
-# 3. Research Deep-Dive (STEM Explorer)
-# --------------------------------------------------
-elif menu == "Research Deep-Dive":
-    st.title("📊 Financial Inclusion Data Explorer")
-    st.write("This section visualizes the current landscape of payment methods in South Africa.")
-
-    # 
+        st.info("💡 **Objective:** To identify the psychological and technical barriers preventing the adoption of digital wallets in local communities.")
     
+    with col2:
+        st.markdown("### Technical Skills")
+        st.button("Python (Pandas/Streamlit)")
+        st.button("Data Visualization")
+        st.button("Statistical Analysis")
+
+# --------------------------------------------------
+# 2. Academic Journey
+# --------------------------------------------------
+elif menu == "Academic Journey":
+    st.title("📚 Academic & Projects")
+    
+    tab1, tab2 = st.tabs(["University History", "Key Projects"])
+    
+    with tab1:
+        st.subheader("Education")
+        for edu in st.session_state.education:
+            st.markdown(f"**{edu['deg']}**")
+            st.caption(f"{edu['sch']} — {edu['yr']}")
+            st.divider()
+            
+    with tab2:
+        st.subheader("Research Projects")
+        for p in st.session_state.projects:
+            with st.expander(p['title']):
+                st.write(p['desc'])
+
+# --------------------------------------------------
+# 3. STEM & Research (Visualizations)
+# --------------------------------------------------
+elif menu == "STEM & Research":
+    st.title("📊 Research Insights")
+    st.write("Current landscape of financial inclusion methods in South African Townships.")
+    
+    
+
+    # Sample Data
     data = {
-        "Method": ["Banking App", "Mobile Wallet", "USSD Payments", "Cash"],
-        "Adoption Rate (%)": [45, 30, 15, 60],
-        "Trust Score (1-10)": [8, 6, 7, 10]
+        "Method": ["Cash", "Mobile Banking", "Store Cards", "Digital Wallets"],
+        "Usage %": [65, 40, 25, 15],
+        "Perceived Security": [10, 8, 5, 4]
     }
     df = pd.DataFrame(data)
 
-    col1, col2 = st.columns([3, 2])
-
+    col1, col2 = st.columns(2)
     with col1:
-        st.write("### Payment Method Adoption")
-        st.bar_chart(df.set_index("Method")["Adoption Rate (%)"], color="#2E86C1")
-
+        st.subheader("Usage Trends")
+        st.bar_chart(df.set_index("Method")["Usage %"])
+    
     with col2:
-        st.write("### Raw Data")
-        st.dataframe(df, use_container_width=True)
-        
-    st.warning("⚠️ **Insight:** While digital adoption is rising, **Cash** remains the primary method due to trust and immediate liquidity.")
+        st.subheader("The Trust Gap")
+        st.line_chart(df.set_index("Method")["Perceived Security"])
+
+    st.markdown("""
+    ### Why this matters:
+    While **Cash** is seen as high-security (because you can hold it), **Digital Wallets** face a trust barrier. 
+    My research aims to bridge this gap through better UI/UX and financial literacy.
+    """)
 
 # --------------------------------------------------
 # 4. Contact
 # --------------------------------------------------
 elif menu == "Contact":
-    st.title("📬 Get In Touch")
+    st.title("📬 Connect with me")
+    st.write("I am always open to discussing research opportunities, internships, or data science projects.")
     
-    contact_col1, contact_col2 = st.columns(2)
+    st.markdown("""
+    - **Email:** tshivhaserichie@gmail.com
+    - **GitHub:** [github.com/yourusername](https://github.com)
+    - **LinkedIn:** [linkedin.com/in/ritshidze-tshivhase](https://linkedin.com)
+    """)
     
-    with contact_col1:
-        st.write("Feel free to reach out for collaborations or data inquiries.")
-        st.write("📧 **Email:** tshivhaserichie@gmail.com")
-        st.write("🔗 **LinkedIn:** [linkedin.com/in/ritshidze-tshivhase](#)")
-    
-    with contact_col2:
-        with st.form("contact"):
-            name = st.text_input("Name")
-            msg = st.text_area("Message")
-            if st.form_submit_button("Send Message"):
-                st.success("Message sent successfully (Simulation)")
+    if st.button("Download Research Abstract (PDF)"):
+        st.write("Download link would go here!")
 
 # --------------------------------------------------
 # Footer
 # --------------------------------------------------
 st.sidebar.markdown("---")
-st.sidebar.caption("© 2024 Ritshidze Tshivhase Portfolio")
+st.sidebar.caption("@2026 Tdhivhase Ritshidze Research")
